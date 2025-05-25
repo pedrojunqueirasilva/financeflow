@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceFlow - Sistema de Controle Financeiro Pessoal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Superior -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanceFlow</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar transações..." id="searchInput">
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="sync-indicator">
+                <i class="fas fa-cloud" id="syncIcon"></i>
+            </div>
+            <div class="notifications">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </div>
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/40" alt="Perfil" class="profile-img">
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral -->
+    <nav class="sidebar">
+        <ul class="nav-menu">
+            <li class="nav-item active" data-tab="dashboard">
+                <i class="fas fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </li>
+            <li class="nav-item" data-tab="nova-transacao">
+                <i class="fas fa-plus-circle"></i>
+                <span>Nova Transação</span>
+            </li>
+            <li class="nav-item" data-tab="recorrentes">
+                <i class="fas fa-sync-alt"></i>
+                <span>Recorrentes</span>
+            </li>
+            <li class="nav-item" data-tab="metas">
+                <i class="fas fa-bullseye"></i>
+                <span>Metas</span>
+            </li>
+            <li class="nav-item" data-tab="orcamentos">
+                <i class="fas fa-wallet"></i>
+                <span>Orçamentos</span>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <!-- Dashboard -->
+        <section id="dashboard" class="tab-content active">
+            <div class="dashboard-grid">
+                <!-- Cartões de Resumo -->
+                <div class="summary-cards">
+                    <div class="card balance-card">
+                        <div class="card-header">
+                            <h3>Saldo Total</h3>
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="card-value">
+                            <span class="amount">R$ 15.847,32</span>
+                            <span class="variation positive">+2.5%</span>
+                        </div>
+                    </div>
+                    <div class="card income-card">
+                        <div class="card-header">
+                            <h3>Receitas do Mês</h3>
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div class="card-value">
+                            <span class="amount">R$ 8.500,00</span>
+                            <div class="mini-chart"></div>
+                        </div>
+                    </div>
+                    <div class="card expense-card">
+                        <div class="card-header">
+                            <h3>Despesas do Mês</h3>
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="card-value">
+                            <span class="amount">R$ 6.234,18</span>
+                            <span class="budget-usage">73% do orçamento</span>
+                        </div>
+                    </div>
+                    <div class="card savings-card">
+                        <div class="card-header">
+                            <h3>Economia Mensal</h3>
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="card-value">
+                            <span class="amount">R$ 2.265,82</span>
+                            <span class="variation positive">+15.2%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos Centrais -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <h3>Distribuição de Gastos</h3>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Evolução Mensal</h3>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    <div class="chart-container full-width">
+                        <h3>Fluxo de Caixa - Próximos 30 Dias</h3>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Widgets Laterais -->
+                <div class="widgets-section">
+                    <div class="widget goals-widget">
+                        <h3>Metas em Andamento</h3>
+                        <div class="goal-item">
+                            <span>Viagem Europa</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%"></div>
+                            </div>
+                            <span>65%</span>
+                        </div>
+                        <div class="goal-item">
+                            <span>Fundo Emergência</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 40%"></div>
+                            </div>
+                            <span>40%</span>
+                        </div>
+                    </div>
+
+                    <div class="widget bills-widget">
+                        <h3>Próximas Contas</h3>
+                        <div class="bill-item">
+                            <span>Cartão de Crédito</span>
+                            <span class="amount">R$ 1.234,56</span>
+                            <span class="due-date">15/01</span>
+                        </div>
+                        <div class="bill-item">
+                            <span>Aluguel</span>
+                            <span class="amount">R$ 2.500,00</span>
+                            <span class="due-date">20/01</span>
+                        </div>
+                    </div>
+
+                    <div class="widget transactions-widget">
+                        <h3>Transações Recentes</h3>
+                        <div class="transaction-item">
+                            <div class="transaction-info">
+                                <span class="description">Supermercado</span>
+                                <span class="category">Alimentação</span>
+                            </div>
+                            <span class="amount negative">-R$ 156,78</span>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-info">
+                                <span class="description">Salário</span>
+                                <span class="category">Receita</span>
+                            </div>
+                            <span class="amount positive">+R$ 5.000,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nova Transação -->
+        <section id="nova-transacao" class="tab-content">
+            <div class="transaction-form-container">
+                <h2>Nova Transação</h2>
+                <form class="transaction-form">
+                    <div class="form-group transaction-type">
+                        <label>Tipo de Transação</label>
+                        <div class="toggle-buttons">
+                            <button type="button" class="toggle-btn active" data-type="expense">Despesa</button>
+                            <button type="button" class="toggle-btn" data-type="income">Receita</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">Valor</label>
+                            <div class="amount-input">
+                                <span class="currency">R$</span>
+                                <input type="text" id="amount" placeholder="0,00">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Categoria</label>
+                            <select id="category">
+                                <option value="alimentacao">🍽️ Alimentação</option>
+                                <option value="transporte">🚗 Transporte</option>
+                                <option value="lazer">🎮 Lazer</option>
+                                <option value="saude">🏥 Saúde</option>
+                                <option value="educacao">📚 Educação</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Descrição</label>
+                        <input type="text" id="description" placeholder="Descrição da transação">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="account">Conta</label>
+                            <select id="account">
+                                <option value="conta-corrente">Conta Corrente</option>
+                                <option value="poupanca">Poupança</option>
+                                <option value="cartao-credito">Cartão de Crédito</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Data</label>
+                            <input type="date" id="date">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="recurring">
+                            <span class="checkmark"></span>
+                            Transação recorrente
+                        </label>
+                    </div>
+
+                    <div class="advanced-features">
+                        <div class="feature-item">
+                            <i class="fas fa-paperclip"></i>
+                            <span>Anexar Comprovante</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-calculator"></i>
+                            <span>Calculadora</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Localização</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Salvar Transação</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Recorrentes -->
+        <section id="recorrentes" class="tab-content">
+            <div class="recurrents-container">
+                <div class="section-header">
+                    <h2>Transações Recorrentes</h2>
+                    <button class="btn-primary">Nova Recorrência</button>
+                </div>
+                
+                <div class="recurrents-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Valor</th>
+                                <th>Frequência</th>
+                                <th>Próxima</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aluguel</td>
+                                <td>Moradia</td>
+                                <td class="negative">R$ 2.500,00</td>
+                                <td>Mensal</td>
+                                <td>20/02/2025</td>
+                                <td><span class="status active">Ativa</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-pause"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Salário</td>
+                                <td>Receita</td>
+                                <td class="positive">R$ 5.000,00</td>
+                                <td>Mensal</td>
+                                <td>05/02/2025</td>
+                                <td><span class="status active">Ativa</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-pause"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="calendar-view">
+                    <h3>Calendário de Recorrências</h3>
+                    <div id="recurrentsCalendar" class="calendar"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metas -->
+        <section id="metas" class="tab-content">
+            <div class="goals-container">
+                <div class="section-header">
+                    <h2>Metas Financeiras</h2>
+                    <button class="btn-primary">Nova Meta</button>
+                </div>
+
+                <div class="goals-grid">
+                    <div class="goal-card">
+                        <div class="goal-image">
+                            <img src="https://via.placeholder.com/300x150" alt="Viagem Europa">
+                        </div>
+                        <div class="goal-content">
+                            <h3>Viagem para Europa</h3>
+                            <p>Férias dos sonhos em 2025</p>
+                            <div class="goal-progress">
+                                <div class="circular-progress" data-progress="65">
+                                    <span class="progress-text">65%</span>
+                                </div>
+                                <div class="goal-values">
+                                    <span class="current">R$ 9.750,00</span>
+                                    <span class="target">R$ 15.000,00</span>
+                                </div>
+                            </div>
+                            <div class="goal-suggestion">
+                                <span>Sugestão: R$ 525,00/mês</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="goal-card">
+                        <div class="goal-image">
+                            <img src="https://via.placeholder.com/300x150" alt="Fundo Emergência">
+                        </div>
+                        <div class="goal-content">
+                            <h3>Fundo de Emergência</h3>
+                            <p>6 meses de despesas</p>
+                            <div class="goal-progress">
+                                <div class="circular-progress" data-progress="40">
+                                    <span class="progress-text">40%</span>
+                                </div>
+                                <div class="goal-values">
+                                    <span class="current">R$ 12.000,00</span>
+                                    <span class="target">R$ 30.000,00</span>
+                                </div>
+                            </div>
+                            <div class="goal-suggestion">
+                                <span>Sugestão: R$ 1.000,00/mês</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="goals-evolution">
+                    <h3>Evolução das Metas</h3>
+                    <canvas id="goalsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orçamentos -->
+        <section id="orcamentos" class="tab-content">
+            <div class="budgets-container">
+                <div class="section-header">
+                    <h2>Orçamentos</h2>
+                    <button class="btn-primary">Novo Orçamento</button>
+                </div>
+
+                <div class="budgets-grid">
+                    <div class="budget-card">
+                        <div class="budget-header">
+                            <h3>🍽️ Alimentação</h3>
+                            <span class="budget-period">Janeiro 2025</span>
+                        </div>
+                        <div class="budget-values">
+                            <div class="value-item">
+                                <span class="label">Orçado</span>
+                                <span class="amount">R$ 1.500,00</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="label">Gasto</span>
+                                <span class="amount negative">R$ 1.095,00</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="label">Disponível</span>
+                                <span class="amount positive">R$ 405,00</span>
+                            </div>
+                        </div>
+                        <div class="budget-progress">
+                            <div class="progress-bar">
+                                <div class="progress good" style="width: 73%"></div>
+                            </div>
+                            <span class="progress-text">73% utilizado</span>
+                        </div>
+                    </div>
+
+                    <div class="budget-card">
+                        <div class="budget-header">
+                            <h3>🚗 Transporte</h3>
+                            <span class="budget-period">Janeiro 2025</span>
+                        </div>
+                        <div class="budget-values">
+                            <div class="value-item">
+                                <span class="label">Orçado</span>
+                                <span class="amount">R$ 800,00</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="label">Gasto</span>
+                                <span class="amount negative">R$ 720,00</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="label">Disponível</span>
+                                <span class="amount positive">R$ 80,00</span>
+                            </div>
+                        </div>
+                        <div class="budget-progress">
+                            <div class="progress-bar">
+                                <div class="progress warning" style="width: 90%"></div>
+                            </div>
+                            <span class="progress-text">90% utilizado</span>
+                        </div>
+                    </div>
+
+                    <div class="budget-card">
+                        <div class="budget-header">
+                            <h3>🎮 Lazer</h3>
+                            <span class="budget-period">Janeiro 2025</span>
+                        </div>
+                        <div class="budget-values">
+                            <div class="value-item">
+                                <span class="label">Orçado</span>
+                                <span class="amount">R$ 600,00</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="label">Gasto</span>
+                                <span class="amount negative">R$ 650,00</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="label">Disponível</span>
+                                <span class="amount negative">-R$ 50,00</span>
+                            </div>
+                        </div>
+                        <div class="budget-progress">
+                            <div class="progress-bar">
+                                <div class="progress danger" style="width: 108%"></div>
+                            </div>
+                            <span class="progress-text">108% utilizado</span>
+                        </div>
+                        <div class="budget-alert">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Orçamento excedido!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="budget-analysis">
+                    <h3>Análise Comparativa</h3>
+                    <canvas id="budgetChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
